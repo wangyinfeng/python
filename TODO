@@ -1,4 +1,4 @@
-#1 simple text editor, 
+#0 simple text editor, ---- seems python is not very sutible for this purpose
   support COPY, PASTE, CUT, SAVE
   support auto save, save to specific dir and with specific name, save action triger by CHANGE
   
