@@ -2,4 +2,10 @@
   support COPY, PASTE, CUT, SAVE
   support auto save, save to specific dir and with specific name, save action triger by CHANGE
   
+#1 pass word keeper
+  keep user name and pass word,plain text first, then encrypt. 
+  show pass word when query by username, or list all.
+  multi platform support, Linux and Windows.
+  implement with python, or c first.
+  cli interface first, then maybe gui.
   
