@@ -3,8 +3,12 @@
   support auto save, save to specific dir and with specific name, save action triger by CHANGE
   
 #1 pass word keeper
-  keep user name and pass word,plain text first, then encrypt. 
-  show pass word when query by username, or list all.
+  Current keep the password by encrypt vim file, it's boring to find the file
+  and then open by vim and then input password and then search to get the
+  item. Should do it by some easy way, and maybe more secure way.
+
+  keep user name and password, plain text first, then encrypt. 
+  show password when query by username, or list all.
   multi platform support, Linux and Windows.
   implement with python, or c first.
   cli interface first, then maybe gui.
