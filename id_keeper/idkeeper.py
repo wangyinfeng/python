@@ -1,9 +1,9 @@
 # The task is simple, print the password and username for the input key word.
-# First step run as:
+# First step run as: DONE
 #   #python idkeeper.py gmail
 #   #wang@gmail.com:123456
 #
-# Then next step may provide interactive mode:
+# Then next step may provide interactive mode: DONE
 #   #python idkeeper.py
 #   #Input the web name:
 #    > gmail
@@ -23,7 +23,27 @@
 #   #Your account for gmail is:
 #   #wang@gmail.com:123456
 #
+# Then next step should provide encrypt for the accounts content, some accounts are critical.
+#
 # Then next step may provide binary file to run directly, for both linux and windows.
+from sys import argv
 
+box = { "pip.io":"mfrc531:16", 
+        "pinterest":"mfrc531:16", 
+        "kanbox":"batman.wang@qq.com:16"}
+if len(argv) == 2:
+    script_name, account = argv
+else:
+    account = raw_input("Input the web name:")
 
+if account == 'all':
+    for name in box.keys():
+        print name,
+        print "\t",
+        print box[name]
+elif box.has_key(account) == False:
+    print "Can't find the account '%s', try the correct name." % account
+    exit(1)
+else:
+    print box[account]
 
