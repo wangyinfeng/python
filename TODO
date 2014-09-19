@@ -2,7 +2,7 @@
   support COPY, PASTE, CUT, SAVE
   support auto save, save to specific dir and with specific name, save action triger by CHANGE
   
-#1 pass word keeper
+#1 pass word keeper - DONE
   Current keep the password by encrypt vim file, it's boring to find the file
   and then open by vim and then input password and then search to get the
   item. Should do it by some easy way, and maybe more secure way.
