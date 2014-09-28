@@ -1,11 +1,4 @@
-# by default all class members are public
-
-# private variables and class-local reference
-
-# member functions are virtual?
-
-# build-in functions
-
+# Most of the uses of inheritance can be simplified or replaced with composition, and multiple inheritance should be avoided at all costs.
 
 class A:
     """The first example of a Class"""
@@ -66,3 +59,27 @@ print child_of_A._A__private_data
 #child_of_A.__private_name() #Error
 child_of_A._A__private_name()
 
+
+class A_of_A(A):
+    def __init__(self):
+        pass
+
+# a virtual function or virtual method is a function or method whose behavior can 
+# be overridden within an inheriting class by a function with the same signature
+
+# if a requested attribute is not found in the class, the search proceeds to look in the base class.
+    def my_name(self):
+        print "Inheritance of A"
+
+child_of_A_of_A = A_of_A()
+child_of_A_of_A.my_name()
+
+# For old-style classes, only rule is depth-first, left-to-right. 
+# For new-style classes ?
+#class grandson_of_A(A_of_A, A):
+class grandson_of_A(A, A_of_A):
+    def __init__(self):
+        pass
+
+child_of_grandson_of_A = grandson_of_A()
+child_of_grandson_of_A.my_name()
