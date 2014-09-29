@@ -1,6 +1,9 @@
 # Most of the uses of inheritance can be simplified or replaced with composition, and multiple inheritance should be avoided at all costs.
 
-class A:
+# old style class, it's type(A) is "classobj"
+#class A():
+# new style class, it's type(A) is "type". in python 3, all classes are new style class
+class A(object): # should always use the new style ?!
     """The first example of a Class"""
 # message inside """help""" will show when use help(module), some kind of document auto generation
 # also can be get by the buildin function __doc__
@@ -43,6 +46,7 @@ class A:
 # user-controlled namespaces.  E.g. __init__, __import__ or __file__.  Never invent such names; only use them
 # as documented.
 
+print type(A)
 child_of_A = A()        
 # it's equivalent to A.myname(child_of_A)
 child_of_A.my_name()
@@ -70,14 +74,15 @@ class A_of_A(A):
 # if a requested attribute is not found in the class, the search proceeds to look in the base class.
     def my_name(self):
         print "Inheritance of A"
+        super(A_of_A, self).my_name()
 
 child_of_A_of_A = A_of_A()
 child_of_A_of_A.my_name()
 
 # For old-style classes, only rule is depth-first, left-to-right. 
 # For new-style classes ?
-#class grandson_of_A(A_of_A, A):
-class grandson_of_A(A, A_of_A):
+class grandson_of_A(A_of_A, A):
+#class grandson_of_A(A, A_of_A):
     def __init__(self):
         pass
 
