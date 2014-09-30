@@ -1,0 +1,12 @@
+# Questions about the skeleton
+
+* Why need to build skeleton like this? for auto tests? distributes?
+
+* What's the function of the __init__.py in project dir and tests dir?
+
+* What's the function of the setup.py? if just some description about the project, why not just a plain text?
+
+* How to use the nosetests?
+
+* What's the function of distribute packet?
+
