@@ -67,6 +67,8 @@ box = {
         "github":"UFYPpswX6ehwiS3r41WzqEBI9dHI4X2dlE9TgtepYnc=",
         "slideshare":"VawSGufaDgVg1H8k1ZV7zkBI9dHI4X2dlE9TgtepYnc=",
         "gmail old":"KVn59Plvd9MoQ8hjCJyVu4HKMQ6A89FTj48jT/6QrOo=",
+        "chinahr":"O8dL1iqBec29XYsYhykB+EBI9dHI4X2dlE9TgtepYnc=",
+        "liepin":"pP9sLMbF9xQF+jmM4TgmwkBI9dHI4X2dlE9TgtepYnc=",
         "live":"jlls3y89Vpc44E8aPaWVlEqgiNM37TlN93nLnYJGw53QeNK68tGEV707TsOsfpH5QlsVkli6ZnrfJS0Bfm/VVQ=="
         }
 
