@@ -17,7 +17,12 @@ if len(argv) == 2:
     the_day=int(specified_date[2])
 
     days=(date(the_year, the_month, the_day)-date(init_year, init_month, init_day)).days 
-    print "To %s, Angel has came for %d days." %(the_date, days)
+
+    if days < 0:
+        print "The date %s is earlier than the Genesis." %the_date
+    else:
+        days=(date(the_year, the_month, the_day)-date(init_year, init_month, init_day)).days 
+        print "To %s, Angel has came for %d days." %(the_date, days)
 else:
 #print (datetime.now().date()-date(init_year, init_month, init_day)).days 
     days=(datetime.now().date()-date(init_year, init_month, init_day)).days 
