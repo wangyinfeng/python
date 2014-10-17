@@ -70,7 +70,8 @@ box = {
         "chinahr":"O8dL1iqBec29XYsYhykB+EBI9dHI4X2dlE9TgtepYnc=",
         "liepin":"pP9sLMbF9xQF+jmM4TgmwkBI9dHI4X2dlE9TgtepYnc=",
         "stackoverflow":"Ud7eGPY39HL8oqXWDG44NVxio7D2o7US6VLh7y6HfHo=",
-        "slideshare":"QYfI5X9qpFe9JcW9ciCXR2GkRSW/3ZbGAuk0c1gNYvM="
+        "slideshare":"QYfI5X9qpFe9JcW9ciCXR2GkRSW/3ZbGAuk0c1gNYvM=",
+        "suishouji":"SEGuMENUQ0aTsSsG2plVKEBI9dHI4X2dlE9TgtepYnc=",
         "live":"jlls3y89Vpc44E8aPaWVlEqgiNM37TlN93nLnYJGw53QeNK68tGEV707TsOsfpH5QlsVkli6ZnrfJS0Bfm/VVQ=="
         }
 
