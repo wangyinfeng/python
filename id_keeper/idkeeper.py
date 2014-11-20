@@ -74,6 +74,7 @@ box = {
         "suishouji":"SEGuMENUQ0aTsSsG2plVKEBI9dHI4X2dlE9TgtepYnc=",
         "POJ":"aacZEknf9G7kKGBbolNjaEBI9dHI4X2dlE9TgtepYnc=",
         "leetcode":"NlsrKYu/W13jOFHk6OUAKkBI9dHI4X2dlE9TgtepYnc=",
+        "7yes":"fVLRjakX8NUNYY1X6IrnR/68Q7lfGfEqGcBjH73NVo0=",
         "live":"jlls3y89Vpc44E8aPaWVlEqgiNM37TlN93nLnYJGw53QeNK68tGEV707TsOsfpH5QlsVkli6ZnrfJS0Bfm/VVQ=="
         }
 
