@@ -76,6 +76,7 @@ box = {
         "leetcode":"NlsrKYu/W13jOFHk6OUAKkBI9dHI4X2dlE9TgtepYnc=",
         "7yes":"fVLRjakX8NUNYY1X6IrnR/68Q7lfGfEqGcBjH73NVo0=",
         "siemens":"hTed5CRoKJkm2RbTwTp9bkBI9dHI4X2dlE9TgtepYnc=",
+        "sf-express":"m9sW2voD80GV3hhPbDHp80BI9dHI4X2dlE9TgtepYnc=",
         "live":"jlls3y89Vpc44E8aPaWVlEqgiNM37TlN93nLnYJGw53QeNK68tGEV707TsOsfpH5QlsVkli6ZnrfJS0Bfm/VVQ=="
         }
 
@@ -102,7 +103,10 @@ elif box.has_key(account) == False:
             print "\t\t",
             print n
         account = raw_input(">")    
-        print decode(box[account])
+        if len(account):
+            print decode(box[account])
+        else:
+            exit(1)
     else:
         print "Can't find the account '%s', try the correct name." % account
         exit(1)
