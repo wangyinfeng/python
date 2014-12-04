@@ -35,12 +35,13 @@ import pdb
 from sys import argv
 from code import decode, encode
 import getopt
+import fileinput
 import code
 
 box = {}
 candidate = []
 def init():
-"""Do initialization actions, prepare for encode and decode"""
+    """Do initialization actions, prepare for encode and decode"""
 # load all data to box
     with open("data") as f:
         for line in f:
@@ -54,7 +55,7 @@ init()
 # auto insert new item to the data file - DONE
 # provide delete and modify the item by the key word
 def usage():
-"""Help info"""    
+    """Help info"""    
     print "usage: python idkeeper.py [-a|-m|-d|-c] <instance account:password>"
     print "\t\t -a to add a new item"
     print "\t\t -m to modify an existed item"
@@ -63,7 +64,7 @@ def usage():
     print "example: python idkeeper.py -a twitter god:123"
 
 def check(account):
-"""Fetch the username and password by the input target"""    
+    """Fetch the username and password by the input target"""    
     if account == 'all':
         for name in box.keys():
             print name,
@@ -92,28 +93,45 @@ def check(account):
         print decode(box[account])
 
 def add(item):
-"""Add a new target to the data file, do encrpyt automatically"""    
+    """Add a new target to the data file, do encrpyt automatically"""    
     # there is no argc in python, get the number of argc by len(argv)
     if len(argv) == 4:
         pw = argv[3]
         code_pw = code.encode(pw)
-        line = '%s:%s' % (item, code_pw)
+        line = "%s:%s\n" % (item, code_pw)
         #do I need f.close()? - no, will be auto closed ASAP the file object is garbage collected
         with open("data", "a") as f: 
-            f.write("%s\n" % line) # TODO: risk here, the '\' may be misunderstand, use %r contain the ''
+#            f.write("%s\n" % line) # Risk here, the '\' may be misunderstand, use %r contain the ''
+            f.write(line) # not require format is better
     else:
         print "Incorrect command:\t",
         print " ".join([str(x) for x in argv])
 
 def modify(item):
-"""Modify the existed target's username and password pair"""    
+    """Modify the existed target's username and password pair"""    
     if len(argv) == 4:
         if box.has_key(item) == True:
             pw = argv[3]
             code_pw = code.encode(pw)
-            line = '%s:%s' % (item, code_pw)
-            with open("data", "a") as f: 
-                f.write("%s\n" % line) # TODO:risk
+            new_line = '%s:%s\n' % (item, code_pw)
+# The most explict way to modify the line, is read out then write back, 
+# a little more operations, but clear enough
+            f = open("data", "r")
+            lines = f.readlines()
+            f.close()
+            f = open("data", "w")
+            for line in lines:
+                if item in line:
+                    f.write(new_line)
+                else:
+                    f.write(line)
+            f.close()
+
+#            for line in fileinput.input("data", inplace=True):
+#                if item in line:
+#                    print "%s" % new_line #redirect the stdout to the file, so print works
+#                else:
+#                    print "%s" % line
         else:
             print "The target '%s' not exist." % item
             exit(1)
@@ -123,7 +141,7 @@ def modify(item):
     exit(1) 
 
 def delete(account):
-"""Delete the target from the data file"""
+    """Delete the target from the data file"""
     if box.has_key(account) == False:
         print "Can't find the account '%s', try the correct name." % account
         exit(1)
@@ -138,6 +156,7 @@ def delete(account):
         f.close()
 
 try:
+#    pdb.set_trace()
     opts, args = getopt.getopt(argv[1:], "ha:d:m:c:", ["help=", "add=", "delete=", "modify=", "check="])
 except getopt.GetoptError as err:
     # print help information and exit:
@@ -168,5 +187,7 @@ for o, a in opts:
 # and not have it execute when someone just wants to import your module and call your functions themselves.
 # If this file is being imported from another module, __name__ will be set to the module's name.
 if __name__ == "__main__":
-    usage()
+    if not opts: #if opts is empty
+        usage()
+    pass
 
