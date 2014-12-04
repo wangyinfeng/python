@@ -25,56 +25,148 @@
 #
 # Then next step should provide encrypt for the accounts content, some accounts are critical. DONE
 # 
-# Then next step should move the critical data to another file, and encrypt that file with a different way.
+# Then next step should move the critical data to another file. DONE
+# and encrypt that file with a different way - double encrypt.
 #
-# I hope when want to add something new, only need to do one operation, input the account and the password, then the coder encrypt the password and insert the accound info to the hash table automatially. Anyway, the encrypt result is not readable and show it out is meanless.
+# I hope when want to add something new, only need to do one operation, input the account and the password, then the coder encrypt the password and insert the accound info to the hash table automatially. Anyway, the encrypt result is not readable and show it out is meanless. DONE
 #
 # Then next step may provide binary file to run directly, for both linux and windows.
+import pdb
 from sys import argv
-from code import decode
-
-# seprate data from the code - DONE
-# auto insert new item to the data file
-# provide delete and modify the item by the key word
+from code import decode, encode
+import getopt
+import code
 
 box = {}
-
-if len(argv) == 2:
-    script_name, account = argv
-else:
-    account = raw_input("Input the web name:")
-
-# load all data to box
-with open("data") as f:
-    for line in f:
-        (key, val) = line.split(':')
-        box[key] = val
-
 candidate = []
-if account == 'all':
-    for name in box.keys():
-        print name,
-        print "\t\t",
-        print decode(box[name])
-elif box.has_key(account) == False:
-    for name in box.keys():
-        if name.find(account) == -1:
-            pass
+def init():
+"""Do initialization actions, prepare for encode and decode"""
+# load all data to box
+    with open("data") as f:
+        for line in f:
+            (key, val) = line.split(':')
+            box[key] = val
+
+init()
+
+# seprate data from the code - DONE
+# use getopt to parse the commands - DONE
+# auto insert new item to the data file - DONE
+# provide delete and modify the item by the key word
+def usage():
+"""Help info"""    
+    print "usage: python idkeeper.py [-a|-m|-d|-c] <instance account:password>"
+    print "\t\t -a to add a new item"
+    print "\t\t -m to modify an existed item"
+    print "\t\t -d to delete an existed item"
+    print "\t\t -h help"
+    print "example: python idkeeper.py -a twitter god:123"
+
+def check(account):
+"""Fetch the username and password by the input target"""    
+    if account == 'all':
+        for name in box.keys():
+            print name,
+            print "\t\t\t",
+            print decode(box[name])
+    elif box.has_key(account) == False:
+        for name in box.keys():
+            if name.find(account) == -1:
+                pass
+            else:
+                candidate.append(name)
+        if len(candidate):
+            print "Do you mean:"
+            for n in candidate:
+                print "\t\t",
+                print n
+            account = raw_input(">")    
+            if len(account):
+                print decode(box[account])
+            else:
+                exit(1)
         else:
-            candidate.append(name)
-    if len(candidate):
-        print "Do you mean:"
-        for n in candidate:
-            print "\t\t",
-            print n
-        account = raw_input(">")    
-        if len(account):
-            print decode(box[account])
-        else:
+            print "Can't find the account '%s', try the correct name." % account
             exit(1)
     else:
+        print decode(box[account])
+
+def add(item):
+"""Add a new target to the data file, do encrpyt automatically"""    
+    # there is no argc in python, get the number of argc by len(argv)
+    if len(argv) == 4:
+        pw = argv[3]
+        code_pw = code.encode(pw)
+        line = '%s:%s' % (item, code_pw)
+        #do I need f.close()? - no, will be auto closed ASAP the file object is garbage collected
+        with open("data", "a") as f: 
+            f.write("%s\n" % line) # TODO: risk here, the '\' may be misunderstand, use %r contain the ''
+    else:
+        print "Incorrect command:\t",
+        print " ".join([str(x) for x in argv])
+
+def modify(item):
+"""Modify the existed target's username and password pair"""    
+    if len(argv) == 4:
+        if box.has_key(item) == True:
+            pw = argv[3]
+            code_pw = code.encode(pw)
+            line = '%s:%s' % (item, code_pw)
+            with open("data", "a") as f: 
+                f.write("%s\n" % line) # TODO:risk
+        else:
+            print "The target '%s' not exist." % item
+            exit(1)
+    else:
+        print "Incorrect command:\t",
+        print " ".join([str(x) for x in argv])
+    exit(1) 
+
+def delete(account):
+"""Delete the target from the data file"""
+    if box.has_key(account) == False:
         print "Can't find the account '%s', try the correct name." % account
         exit(1)
-else:
-    print decode(box[account])
+    else:
+        f = open("data", "r")
+        lines = f.readlines()
+        f.close()
+        f = open("data", "w")
+        for line in lines:
+            if account not in line:
+                f.write(line)
+        f.close()
+
+try:
+    opts, args = getopt.getopt(argv[1:], "ha:d:m:c:", ["help=", "add=", "delete=", "modify=", "check="])
+except getopt.GetoptError as err:
+    # print help information and exit:
+    print(err) # will print something like "option -a not recognized"
+    usage()
+    exit(2)
+
+verbose = False
+for o, a in opts:
+    if o == "-v":
+        verbose = True
+    elif o in ("-h", "--help"):
+        usage()
+        exit(1)
+    elif o in ("-c", "--check"):
+        check(a)
+    elif o in ("-a", "--add"):
+        add(a)
+    elif o in ("-m", "--modify"):
+        modify(a)
+    elif o in ("-d", "--delete"):
+        delete(a)
+    else:
+        usage()
+        exit(2)
+
+# By doing the main check, you can have that code only execute when you want to run the module as a program 
+# and not have it execute when someone just wants to import your module and call your functions themselves.
+# If this file is being imported from another module, __name__ will be set to the module's name.
+if __name__ == "__main__":
+    usage()
 
