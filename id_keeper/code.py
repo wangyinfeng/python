@@ -41,20 +41,25 @@ def decode(encoded):
 #    print decoded
     return decoded
 
-def encode():
+def encode(word):
 # encode a string
-    print "Input the username and password, wang@gmail.com:123456 for example"
-    try:
-        while True:
-            word = raw_input('>')
-            if len(word) < 3:
-                exit(1)
-            encoded = EncodeAES(cipher, word)
-            print '\t', encoded
+# if input parameter is empty
+    if word != "":
+        encoded = EncodeAES(cipher, word)
+        return encoded
+    else:
+        print "Input the username and password, wang@gmail.com:123456 for example"
+        try:
+            while True:
+                word = raw_input('>')
+                if len(word) < 3:
+                    exit(1)
+                encoded = EncodeAES(cipher, word)
+                print '\t', encoded
 
-    except EOFError:
-        exit(0)
+        except EOFError:
+            exit(0)
 
 if __name__ == "__main__":
-    encode()
+    encode("")
  
