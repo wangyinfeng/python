@@ -53,7 +53,7 @@ init()
 # seprate data from the code - DONE
 # use getopt to parse the commands - DONE
 # auto insert new item to the data file - DONE
-# provide delete and modify the item by the key word
+# provide delete and modify the item by the key word - DONE
 def usage():
     """Help info"""    
     print "usage: python idkeeper.py [-a|-m|-d|-c] <instance account:password>"
