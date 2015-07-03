@@ -6,6 +6,10 @@
 # plaintext. Also the id_keeper will call decrypt function to get plaintext 
 # to show to user.
 
+# more than one time have the error message: no module named Crypto.Cipher
+# using pip install Crypto is actually install the crypto
+# the correct way is install the pycrypto, for windows, check the solution
+# http://stackoverflow.com/questions/11405549/how-do-i-install-pycrypto-on-windows
 from Crypto.Cipher import AES
 import base64
 import os
