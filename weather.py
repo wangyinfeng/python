@@ -22,22 +22,22 @@ from datetime import datetime, timedelta
 base_url = "http://api.worldweatheronline.com/free/v2/weather.ashx"
 
 windDir = {
-    "N":   "\033[1m↓\033[0m",
-    "NNE": "\033[1m↓\033[0m",
-    "NE":  "\033[1m↙\033[0m",
-    "ENE": "\033[1m↙\033[0m",
-    "E":   "\033[1m←\033[0m",
-    "ESE": "\033[1m←\033[0m",
-    "SE":  "\033[1m↖\033[0m",
-    "SSE": "\033[1m↖\033[0m",
-    "S":   "\033[1m↑\033[0m",
-    "SSW": "\033[1m↑\033[0m",
-    "SW":  "\033[1m↗\033[0m",
-    "WSW": "\033[1m↗\033[0m",
-    "W":   "\033[1m→\033[0m",
-    "WNW": "\033[1m→\033[0m",
-    "NW":  "\033[1m↘\033[0m",
-    "NNW": "\033[1m↘\033[0m",
+    "N":   "↓",
+    "NNE": "↓",
+    "NE":  "↙",
+    "ENE": "↙",
+    "E":   "←",
+    "ESE": "←",
+    "SE":  "↖",
+    "SSE": "↖",
+    "S":   "↑",
+    "SSW": "↑",
+    "SW":  "↗",
+    "WSW": "↗",
+    "W":   "→",
+    "WNW": "→",
+    "NW":  "↘",
+    "NNW": "↘",
 }
 
 
@@ -63,7 +63,9 @@ class Query(object):
                 # json_string = response.text
 
                 #使用urllib
-                url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json&lang=zh" % self.city
+                #If specified the language, the data will inside member "lang_zh", otherwise will inside weatherDesc
+                #url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json&lang=zh" % self.city
+                url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json" % self.city
                 
                 response = urllib.urlopen(url)
                 json_string = response.read()
@@ -71,9 +73,9 @@ class Query(object):
                 data = parsed_json['data']              # 获取所有数据
 
                 try:
-                        self.weather = data['weather'][self.day]            # 获取天气预报,[]内０代表当天,1代表明天，以此类推。
+                        self.weather = data['weather'][self.day]
                 except KeyError:
-                        print "\033[1;31;49m" + "请输入正确的城市或地区！" + "\033[0m"
+                        print "Please input the correct city or area name:"
                         sys.exit()
                 self.date = self.weather['date']
 
@@ -94,23 +96,23 @@ class Query(object):
                 for time in self.time:
                         self.detail(time)
 
-                        l1 += '│' + self.hourly['lang_zh'][0]['value'].encode("utf-8") + '\t\t' if len(self.hourly['lang_zh'][0]['value'].encode("utf-8")) <= 9 else '│' + self.hourly['lang_zh'][0]['value'].encode("utf-8") + '\t'
-                        l2 += '│' + temp_color(self.tempC) + "°C"+'\t\t'
-                        l3 += '│' + windDir[self.winddir16Point]+" "+ wind_color(self.windspeedKmph) + "km/h" + '\t'
-                        l4 += '│' + "降水概率:" + str(self.chanceofwater) + "%" + '\t'
-                        l5 += '│' + "湿度:" + str(self.humidity) + "%" + '\t'
+                        l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t' if len(self.hourly['weatherDesc'][0]['value'].encode("utf-8")) <= 9 else '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t'
+                        l2 += '|' + str(self.tempC) + " C"+'\t\t'
+                        l3 += '|' + windDir[self.winddir16Point]+" "+ str(self.windspeedKmph) + "km/h" + '\t'
+                        l4 += '|' + "Rain:" + str(self.chanceofwater) + "%" + '\t'
+                        l5 += '|' + "Humidity:" + str(self.humidity) + "%" + '\t'
 
-                print l1+"│"
-                print l2+"│"
-                print l3+"│"
-                print l4+"│"
-                print l5+"│"
+                print l1+"|"
+                print l2+"|"
+                print l3+"|"
+                print l4+"|"
+                print l5+"|"
 
         def printDay(self, delta):
                 date_time = datetime.strftime(datetime.today() + timedelta(days=delta),"%Y-%m-%d")
                 line1 = "                         ┌─────────────┐                                 "
                 line2 = "┌───────────────┬───────────%s──────────┬───────────────┐" % date_time
-                line3 = "│  Morning      │   Noon └──────┬──────┘ Evening│     Night     │"
+                line3 = "|  Morning      |   Noon └──────┬──────┘ Evening|     Night     |"
                 line4 = "├───────────────┼───────────────┼───────────────┼───────────────┤"
                 endline="└───────────────┴───────────────┴───────────────┴───────────────┘"
                 print line1
@@ -143,7 +145,7 @@ def main():
         try:
                 city = sys.argv[1]
         except IndexError:
-                print "\033[1;31;49m" + "Please input the city or area name" + "\033[0m"
+                print "Please input the city or area name:"
                 city = raw_input()
                 if city == '':
                         sys.exit()
