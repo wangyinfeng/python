@@ -70,7 +70,7 @@ class Query(object):
                 response = urllib.urlopen(url)
                 json_string = response.read()
                 parsed_json = json.loads(json_string)
-                data = parsed_json['data']              # 获取所有数据
+                data = parsed_json['data']
 
                 try:
                         self.weather = data['weather'][self.day]
@@ -96,11 +96,18 @@ class Query(object):
                 for time in self.time:
                         self.detail(time)
 
-                        l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t' if len(self.hourly['weatherDesc'][0]['value'].encode("utf-8")) <= 9 else '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t'
-                        l2 += '|' + str(self.tempC) + " C"+'\t\t'
-                        l3 += '|' + windDir[self.winddir16Point]+" "+ str(self.windspeedKmph) + "km/h" + '\t'
-                        l4 += '|' + "Rain:" + str(self.chanceofwater) + "%" + '\t'
-                        l5 += '|' + "Humidity:" + str(self.humidity) + "%" + '\t'
+#                        l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t\t' if len(self.hourly['weatherDesc'][0]['value'].encode("utf-8")) <= 13 else '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t'
+                        if len(self.hourly['weatherDesc'][0]['value'].encode("utf-8")) <= 8:
+                            l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t\t'
+                        elif len(self.hourly['weatherDesc'][0]['value'].encode("utf-8")) > 16:
+                            l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t'
+                        else:
+                            l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t'
+   
+                        l2 += '|' + str(self.tempC) + " C"+'\t\t\t'
+                        l3 += '|' + windDir[self.winddir16Point]+" "+ str(self.windspeedKmph) + "km/h" + '\t\t'
+                        l4 += '|' + "Rain:" + str(self.chanceofwater) + "%" + '\t\t'
+                        l5 += '|' + "Humidity:" + str(self.humidity) + "%" + '\t\t'
 
                 print l1+"|"
                 print l2+"|"
@@ -110,36 +117,13 @@ class Query(object):
 
         def printDay(self, delta):
                 date_time = datetime.strftime(datetime.today() + timedelta(days=delta),"%Y-%m-%d")
-                line1 = "                         ┌─────────────┐                                 "
-                line2 = "┌───────────────┬───────────%s──────────┬───────────────┐" % date_time
-                line3 = "|  Morning      |   Noon └──────┬──────┘ Evening|     Night     |"
-                line4 = "├───────────────┼───────────────┼───────────────┼───────────────┤"
-                endline="└───────────────┴───────────────┴───────────────┴───────────────┘"
-                print line1
-                print line2
-                print line3
-                print line4
+                print "\t\t\t\t\t%s" %date_time
+                print "-------------------------------------------------------------------------------------------------"
+                print "|        Morning        |         Noon          |         Evening       |        Night          |"
+                print "-------------------------------------------------------------------------------------------------"
                 self.printSingle()
-                print endline
+                print '\n'
 
-def temp_color(temp):
-        if temp >= 35 or temp <= -10:
-                color = "\033[1;31;49m" + str(temp) + "\033[0m"
-        elif (temp >= 25 and temp <35):
-                color = "\033[1;33;49m" + str(temp) + "\033[0m"
-        elif temp > 10 and temp < 25:
-                color = "\033[1;32;49m" + str(temp) + "\033[0m"
-        elif temp >-10 and temp <= 10:
-                color = "\033[1;34;49m" + str(temp) + "\033[0m"
-        return color
-def wind_color(windspeed):
-        if windspeed <= 5:
-                color = "\033[1;32;49m" + str(windspeed) + "\033[0m"
-        elif windspeed > 5 and windspeed <=10:
-                color = "\033[1;33;49m" + str(windspeed) + "\033[0m"
-        else:
-                color = "\033[1;34;49m" + str(windspeed) + "\033[0m"
-        return color
 
 def main():
         try:
