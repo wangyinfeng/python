@@ -72,7 +72,7 @@ class Query(object):
         response = urllib.urlopen(url)
         json_string = response.read()
         parsed_json = json.loads(json_string)
-        data = parsed_json['data']
+        data = parsed_json['data']      #So fucking easy to get the url response
 
         try:
             self.weather = data['weather'][self.day]
@@ -80,7 +80,7 @@ class Query(object):
             print "Please input the correct city or area name:"
             sys.exit()
 
-        self.date = self.weather['date']
+        self.date = self.weather['date']    #everyting is object!
 
     def detail(self, time):
         self.hourly = self.weather['hourly'][time]           # 获取小时数据，time:100-1500
@@ -143,15 +143,14 @@ class Query(object):
 def main():
     try:
         city = sys.argv[1]
+#        days = sys.argv[2]
     except IndexError:
         print "Please input the city or area name:"
         city = raw_input()
         if city == '':
             sys.exit()
 
-#    day = [0,1,2]
-    day = [1]
-    for i in day:
+    for i in range(0,2):
        query = Query(i,city)
        query.query()
        query.printDay(i)
