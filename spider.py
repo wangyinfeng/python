@@ -22,6 +22,7 @@ base_url = "http://www.douban.com/people/renxiaowen/"
 item_note = "notes"
 item_photo = "photos"
 
+
 def get_notes():
     global file_content
 
@@ -34,13 +35,33 @@ def get_notes():
 
     title_divide = '\n' + '--' * 30 + '\n' + '--' * 30 + '\n'
     count = 1
-    
-    list_soup = soup.findAll('div', {'class': 'note-header-container'})
+    pages_info = soup.find('div', {'class':'paginator'})
+    pages_num = int(pages_info.find('span', {'class':'thispage'}).get('data-total-page'))
+    page_url = []
+#    page_url.append(url)
+    for page in pages_info.find_all('a'):
+        page_url.append(page.get('href'))
+    page_url.pop()
 #    pdb.set_trace()
+    
+    #get the 1st page note links
+    list_soup = soup.findAll('div', {'class': 'note-header-container'})
     for notes in list_soup:
         note_link = notes.find('a', {'class':'j a_unfolder_n'}).get('href')
         print note_link
         count += 1
+    
+    #get the remain pages note links
+    for next_page in page_url:
+        url = next_page
+        source_code = requests.get(url)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        list_soup = soup.findAll('div', {'class': 'note-header-container'})
+        for notes in list_soup:
+            note_link = notes.find('a', {'class':'j a_unfolder_n'}).get('href')
+            print note_link
+            count += 1
 
 
 def do_spider():
