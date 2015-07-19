@@ -13,18 +13,18 @@ from bs4 import BeautifulSoup #parse a document to a tree representation
 
 import pdb
 
-
 file_name = ''
 file_content = ''
-file_content = ''
+note_links = []
 
 base_url = "http://www.douban.com/people/renxiaowen/"
 item_note = "notes"
 item_photo = "photos"
 
 
-def get_notes():
+def get_note_links():
     global file_content
+    global note_links
 
     url = base_url + item_note
     source_code = requests.get(url)
@@ -41,14 +41,14 @@ def get_notes():
 #    page_url.append(url)
     for page in pages_info.find_all('a'):
         page_url.append(page.get('href'))
+    #last one item is duplicated    
     page_url.pop()
-#    pdb.set_trace()
     
     #get the 1st page note links
     list_soup = soup.findAll('div', {'class': 'note-header-container'})
     for notes in list_soup:
         note_link = notes.find('a', {'class':'j a_unfolder_n'}).get('href')
-        print note_link
+        note_links.append(note_link)
         count += 1
     
     #get the remain pages note links
@@ -60,12 +60,21 @@ def get_notes():
         list_soup = soup.findAll('div', {'class': 'note-header-container'})
         for notes in list_soup:
             note_link = notes.find('a', {'class':'j a_unfolder_n'}).get('href')
-            print note_link
+            note_links.append(note_link)
             count += 1
+
+def get_note_content(link):
+    source_code = requests.get(link)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    pdb.set_trace()
+    content = soup.find('div', {'id': 'link-report'})
 
 
 def do_spider():
-    get_notes()
+    get_note_links()
+    print note_links
+    get_note_content(note_links[0])
 
 do_spider()
 
