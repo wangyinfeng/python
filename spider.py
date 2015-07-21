@@ -69,6 +69,13 @@ def get_note_content(link):
     soup = BeautifulSoup(plain_text)
     pdb.set_trace()
     content = soup.find('div', {'id': 'link-report'})
+    note_date = soup.find('span', {'class':'pl'}).string.partition(' ')[0]
+    file_name = note_date
+    file_content = str(content)+'\n'
+    f = open(file_name, 'w')
+    f.write(file_content)
+    f.close()
+    print file_content
 
 
 def do_spider():
@@ -78,8 +85,3 @@ def do_spider():
 
 do_spider()
 
-# 将最终结果写入文件
-#f = open(file_name, 'w')
-#f.write(file_content)
-#f.close()
-#print file_content
