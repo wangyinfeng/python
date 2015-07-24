@@ -35,7 +35,7 @@ api_secret = '9d5650fb779595187f73df3ffbe2bdac'
 callback_url = 'www.me.me'
 #callback_url = 'https://api.weibo.com/oauth2/authorize?redirect_uri=http%3A//sinaweibopy.sinaapp.com/callback&response_type=code&client_id=2373761036'
 userid = 'batman.wang@qq.com'
-password = '168802'
+password = 'xxxxxx'
 
 global client, referer_url
 client =  APIClient(app_key=api_key, app_secret=api_secret, redirect_uri=callback_url)
