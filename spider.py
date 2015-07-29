@@ -13,6 +13,10 @@ from bs4 import BeautifulSoup #parse a document to a tree representation
 
 import pdb
 
+#Error: maximum recursion depth exceeded while calling a Python object
+sys.setrecursionlimit(1000)
+#where do I use the recursion?
+
 file_name = ''
 file_content = ''
 note_links = []
@@ -71,11 +75,12 @@ def get_note_content(link):
     content = soup.find('div', {'id': 'link-report'})
 
     note_date = soup.find('span', {'class':'pl'}).string.partition(' ')[0]
-    file_name = note_date
+    #os.path.join know whether to use '\' or '/'
+    file_name = os.path.join(people, note_date)
     
     file_content = str(content).replace("<br>", "\n").replace("</br>", "\n") + "\n"
     f = open(file_name, 'w')
-#    f.write(file_content)
+    f.write(file_content)
     f.close()
     print file_content
 
@@ -83,7 +88,12 @@ def get_note_content(link):
 def do_spider():
     get_note_links()
     print note_links
-    get_note_content(note_links[0])
+
+    if not os.path.exists(people):
+        os.makedirs(people)
+
+    for link in note_links:
+        get_note_content(link)
 
 do_spider()
 
