@@ -17,7 +17,8 @@ file_name = ''
 file_content = ''
 note_links = []
 
-base_url = "http://www.douban.com/people/renxiaowen/"
+base_url = "http://www.douban.com/people/"
+people = "renxiaowen"
 item_note = "notes"
 item_photo = "photos"
 
@@ -26,7 +27,7 @@ def get_note_links():
     global file_content
     global note_links
 
-    url = base_url + item_note
+    url = base_url + people + '/' + item_note
     source_code = requests.get(url)
     # just get the code, no headers or anything
     plain_text = source_code.text
@@ -67,13 +68,14 @@ def get_note_content(link):
     source_code = requests.get(link)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-    pdb.set_trace()
     content = soup.find('div', {'id': 'link-report'})
+
     note_date = soup.find('span', {'class':'pl'}).string.partition(' ')[0]
     file_name = note_date
-    file_content = str(content)+'\n'
+    
+    file_content = str(content).replace("<br>", "\n").replace("</br>", "\n") + "\n"
     f = open(file_name, 'w')
-    f.write(file_content)
+#    f.write(file_content)
     f.close()
     print file_content
 
