@@ -22,29 +22,29 @@ from datetime import datetime, timedelta
 base_url = "http://api.worldweatheronline.com/free/v2/weather.ashx"
 
 windDir = {
-        "N":   "↓",
-        "NNE": "↓",
-        "NE":  "↙",
-        "ENE": "↙",
-        "E":   "←",
-        "ESE": "←",
-        "SE":  "↖",
-        "SSE": "↖",
-        "S":   "↑",
-        "SSW": "↑",
-        "SW":  "↗",
-        "WSW": "↗",
-        "W":   "→",
-        "WNW": "→",
-        "NW":  "↘",
-        "NNW": "↘",
-        }
+    "N":   "↓",
+    "NNE": "↓",
+    "NE":  "↙",
+    "ENE": "↙",
+    "E":   "←",
+    "ESE": "←",
+    "SE":  "↖",
+    "SSE": "↖",
+    "S":   "↑",
+    "SSW": "↑",
+    "SW":  "↗",
+    "WSW": "↗",
+    "W":   "→",
+    "WNW": "→",
+    "NW":  "↘",
+    "NNW": "↘",
+    }
 
 
 class Query(object):
     def __init__(self, day, city):
         self.day = day
-        self.time = [3,4,5,6]
+        self.time = [3, 4, 5, 6]
         self.weatherCode = ''
         self.weather = ''
         self.date = ''
@@ -59,20 +59,21 @@ class Query(object):
         self.pressure = 0
 
     def query(self):
-    # 使用resquests
-    # p={"q":"%s"%self.city, "num_of_days":3, "format":"json", "key":"55f1fdd05fba23be0a18043d0a017", "lang":"zh"}
-    # response=requests.get(base_url,params=p)
-    # json_string = response.text
+        # 使用resquests
+        # p={"q":"%s"%self.city, "num_of_days":3, "format":"json", "key":"55f1fdd05fba23be0a18043d0a017", "lang":"zh"}
+        # response=requests.get(base_url,params=p)
+        # json_string = response.text
 
-    #使用urllib
-    #If specified the language, the data will inside member "lang_zh", otherwise will inside weatherDesc
-    #url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json&lang=zh" % self.city
+        # 使用urllib
+        # If specified the language, the data will inside member "lang_zh", otherwise will inside weatherDesc
+        # url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json&lang=zh" % self.city
         url = base_url + "?key=0225e665449eee8612275c9511e11&q=%s&num_of_days=3&format=json" % self.city
 
         response = urllib.urlopen(url)
         json_string = response.read()
         parsed_json = json.loads(json_string)
-        data = parsed_json['data']      #So fucking easy to get the url response
+        # So fucking easy to get the url response
+        data = parsed_json['data']
 
         try:
             self.weather = data['weather'][self.day]
@@ -80,7 +81,7 @@ class Query(object):
             print "Please input the correct city or area name:"
             sys.exit()
 
-        self.date = self.weather['date']    #everyting is object!
+        self.date = self.weather['date']   # everyting is object!
 
     def detail(self, time):
         self.hourly = self.weather['hourly'][time]           # 获取小时数据，time:100-1500
@@ -100,7 +101,7 @@ class Query(object):
         self.moonrise = self.weather['astronomy'][0]['moonrise']
         self.moonset = self.weather['astronomy'][0]['moonset']
 
-    def printSingle(self):
+    def printsingle(self):
         l1 = l2 = l3 = l4 = l5 = l6 = ''
         for time in self.time:
             self.detail(time)
@@ -113,7 +114,7 @@ class Query(object):
                 l1 += '|' + self.hourly['weatherDesc'][0]['value'].encode("utf-8") + '\t\t'
 
             l2 += '|' + str(self.tempC) + " C"+'\t\t\t'
-            l3 += '|' + windDir[self.winddir16Point]+" "+ str(self.windspeedKmph) + "km/h" + '\t\t'
+            l3 += '|' + windDir[self.winddir16Point] + " " + str(self.windspeedKmph) + "km/h" + '\t\t'
             l4 += '|' + "Rain:" + str(self.chanceofwater) + "%" + '\t\t'
             l5 += '|' + "Humidity:" + str(self.humidity) + "%" + '\t\t'
             l6 += '|' + "Pressure:" + str(self.pressure) + "mb" + '\t'
@@ -130,13 +131,13 @@ class Query(object):
         print "Moon rise:%s" % str(self.moonrise)
         print "Moon set:%s" % str(self.moonset)
 
-    def printDay(self, delta):
-        date_time = datetime.strftime(datetime.today() + timedelta(days=delta),"%Y-%m-%d")
-        print "\t\t\t\t\t%s" %date_time
+    def printday(self, delta):
+        date_time = datetime.strftime(datetime.today() + timedelta(days=delta), "%Y-%m-%d")
+        print "\t\t\t\t\t%s" % date_time
         print "-------------------------------------------------------------------------------------------------"
         print "|        Morning        |         Noon          |         Evening       |        Night          |"
         print "-------------------------------------------------------------------------------------------------"
-        self.printSingle()
+        self.printsingle()
         print '\n'
 
 
@@ -150,10 +151,10 @@ def main():
         if city == '':
             sys.exit()
 
-    for i in range(0,2):
-       query = Query(i,city)
-       query.query()
-       query.printDay(i)
+    for i in range(0, 2):
+        query = Query(i, city)
+        query.query()
+        query.printday(i)
 
 if __name__ == "__main__":
     main()
