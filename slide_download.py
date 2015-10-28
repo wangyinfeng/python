@@ -19,6 +19,8 @@ from sys import argv
 if len(argv) != 3:
     print "usage:"
     print "python %s <url> <pages>" % __file__
+    print "\nHow to get the 'url' --"
+    print "\tMaximize the slide page, right click the picture page, get the picture's link, that's the 'url'"
     exit()
 else:
     script, url, pages = argv
