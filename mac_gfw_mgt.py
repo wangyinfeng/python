@@ -34,3 +34,7 @@ if check_listening_port(PORT):
 else:
     print "Connection is NOK"
 
+# periodically report connections
+# any way to test translate delay?
+# curl --socks5 127.0.0.1:1080 --connect-timeout 10 google.com
+
