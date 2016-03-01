@@ -60,6 +60,7 @@ def usage():
     print "\t\t -a to add a new item"
     print "\t\t -m to modify an existed item"
     print "\t\t -d to delete an existed item"
+    print "\t\t -c to check an item"
     print "\t\t -h help"
     print "example: python idkeeper.py -a twitter god:123"
 
