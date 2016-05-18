@@ -1,36 +1,6 @@
-# The task is simple, print the password and username for the input key word.
-# First step run as: DONE
-#   #python idkeeper.py gmail
-#   #wang@gmail.com:123456
-#
-# Then next step may provide interactive mode: DONE
-#   #python idkeeper.py
-#   #Input the web name:
-#    > gmail
-#   #Your account for gmail is:
-#   #wang@gmail.com:123456
-#
-# Then next step may provide fuzzy matching in case you can't remember the full/correct name of the web: DONE
-#   #python idkeeper.py
-#   #Input the web name:
-#     > mail
-#   #Do you mean:
-#    gmail
-#    amail
-#    bmail
-#   Select the correct name and input again:
-#    >gmail
-#   #Your account for gmail is:
-#   #wang@gmail.com:123456
-#
-# Then next step should provide encrypt for the accounts content, some accounts are critical. DONE
-# 
-# Then next step should move the critical data to another file. DONE
-# and encrypt that file with a different way - double encrypt.
-#
-# I hope when want to add something new, only need to do one operation, input the account and the password, then the coder encrypt the password and insert the accound info to the hash table automatially. Anyway, the encrypt result is not readable and show it out is meanless. DONE
-#
-# Then next step may provide binary file to run directly, for both linux and windows.
+#TODO 
+#   some character encrypt not correct, such as '$'
+#   really consider the security risk!!!
 import pdb
 from sys import argv
 from code import decode, encode
